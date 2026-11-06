@@ -1,4 +1,4 @@
-export async function getUserStats(params) {
+export async function getUserStats(req, res) {
     try{
 
     }
