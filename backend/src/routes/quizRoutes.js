@@ -1,17 +1,9 @@
-export async function getQuizes(req, res) {
-    try{
+import express from "express";
+import { checkAnswers, getQuizes } from "../controllers/quizControllers.js"
 
-    }
-    catch(error){
-        console.log("An error occured when getting quizes", error);
-    }
-}
+const quizRouter = express.Router();
 
-export async function checkAnswers(req, res) {
-    try{
+quizRouter.get("/:category/:difficulty/:ammount", getQuizes)
+quizRouter.post("/submit", checkAnswers)
 
-    }
-    catch(error){
-        console.log("An error occured when checking answers", error);
-    }
-}
+export default quizRouter;

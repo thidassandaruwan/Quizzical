@@ -1,8 +1,8 @@
-export async function getUserStats(params) {
-    try{
+import express from "express";
+import { getUserStats } from "../controllers/userControllers.js";
 
-    }
-    catch(error){
-        console.log("An error occured when getting user stats", error)
-    }
-}
+const userRouter = express.Router();
+
+userRouter.get("/stats", getUserStats);
+
+export default userRouter;
