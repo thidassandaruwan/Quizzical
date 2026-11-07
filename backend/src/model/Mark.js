@@ -12,15 +12,23 @@ const markSchema = new mongoose.Schema(
             correct : Number,
             allQuizzes : Number
         },
-        games : {
+        videoGames : {
             correct : Number,
             allQuizzes : Number
         },
-        movies : {
+        geography : {
             correct : Number,
             allQuizzes : Number
         },
         vehicles : {
+            correct : Number,
+            allQuizzes : Number
+        }, 
+        comics : {
+            correct : Number,
+            allQuizzes : Number
+        },
+        gadgets : {
             correct : Number,
             allQuizzes : Number
         }

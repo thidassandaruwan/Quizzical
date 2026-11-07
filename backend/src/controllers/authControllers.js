@@ -57,9 +57,11 @@ export async function register(req, res) {
         const mark = await Mark.create({
             userId : savedUser.id,
             computers : { correct : 0, allQuizzes : 0},
-            games : { correct : 0, allQuizzes : 0},
-            movies : { correct : 0, allQuizzes : 0},
-            vehicles : { correct : 0, allQuizzes : 0}
+            videoGames : { correct : 0, allQuizzes : 0},
+            geography : { correct : 0, allQuizzes : 0},
+            vehicles : { correct : 0, allQuizzes : 0},
+            comics : { correct : 0, allQuizzes : 0},
+            gadgets :{ correct : 0, allQuizzes : 0}
         })
 
         // save user is in session

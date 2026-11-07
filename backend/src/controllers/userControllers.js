@@ -26,8 +26,23 @@ export async function deleteUser(req, res) {
         if (!deletedUser){
             return res.status(404).json({message : "Invalid user id"})
         }
-
         const deletedMark = await Mark.deleteOne({userId : id})
+
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Error destroying session on user deletion:", err);
+                return res.status(500).json({ message: "Account deleted, but failed to destroy session." });
+            }
+
+            res.clearCookie("connect.sid", {
+                path: "/",
+                httpOnly: true,
+                sameSite: "lax",
+            });
+            
+            return res.status(200).json({ message: "Account deleted successfully!" });
+        });
+
         res.status(200).json(deletedUser);
     }
     catch(error){
@@ -69,9 +84,11 @@ export async function getUserStats(req, res) {
             userMarks = await Mark.create({
                 userId : user.id,
                 computers : { correct : 0, allQuizzes : 0},
-                games : { correct : 0, allQuizzes : 0},
-                movies : { correct : 0, allQuizzes : 0},
-                vehicles : { correct : 0, allQuizzes : 0}
+                videoGames : { correct : 0, allQuizzes : 0},
+                geography : { correct : 0, allQuizzes : 0},
+                vehicles : { correct : 0, allQuizzes : 0},
+                comics : { correct : 0, allQuizzes : 0},
+                gadgets :{ correct : 0, allQuizzes : 0}
             })
         }
 
