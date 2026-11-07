@@ -31,13 +31,14 @@ export async function register(req, res) {
         // hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // not getting user password with .select (unless neded even transmitting hashed passwords can be unsecure)
         // check if user already exist (check if user exists with email or username )
         const existingUser = await User.findOne({
             $or: [
                 {email : email},
                 {username : username}
             ]
-        })
+        }).select("-password")
 
         if (existingUser){
             if (existingUser.email === email){
@@ -53,16 +54,25 @@ export async function register(req, res) {
         const savedUser = await user.save()
 
         // create a mark for the user
-        const mark = new Mark({
+        const mark = await Mark.create({
             userId : savedUser.id,
             computers : { correct : 0, allQuizzes : 0},
             games : { correct : 0, allQuizzes : 0},
             movies : { correct : 0, allQuizzes : 0},
             vehicles : { correct : 0, allQuizzes : 0}
         })
-        const savedMark = await mark.save();
 
-        res.status(201).json({savedUser, savedMark});
+        // save user is in session
+        req.session.userId = savedUser.id;
+
+        return res.status(201).json({
+            message : "account creation successful",
+            userData : {
+                userId : user.id,
+                username : user.username,
+                email : user.email,
+            }
+        })
 
     }
     catch(error){
@@ -78,53 +88,51 @@ export async function login(req, res) {
             return res.status(400).json({message : "Missing authentication credentials!"})
         }
 
-        
-    }
-    catch(error){
-        console.log("Error when loggin in user", error);
-        res.status(500).json({message : "Internal server error!, Please try again later!"});
-    }
-}
+        // not getting user password with .select (unless neded even transmitting hashed passwords can be unsecure)
+        const user = await User.findOne({email});
 
-export async function logout(req, res) {
-    try{
-
-    }
-    catch(error){
-        console.log("Error when loggin in user", error);
-        res.status(500).json({message : "Internal server error!, Please try again later!"});
-    }
-}
-
-export async function deleteUser(req, res) {
-    try{
-        const id = req.params.id;
-        if (!id){
-            return res.status(400).json({message : "Missing user id"})
+        if (!user){
+            return res.status(404).json({message : "Invalid email or password!"});
         }
-        
-        const deletedUser = await User.findByIdAndDelete(id);
-        if (!deletedUser){
-            return res.status(404).json({message : "Invalid user id"})
+        console.log("user exists")
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid){
+            return res.status(404).json({message : "Invalid email or password!"});
         }
 
-        const deletedMark = await Mark.deleteOne({userId : id})
-        res.status(200).json(deletedUser);
+       // save user is in session
+        req.session.userId = user.id;
+
+
+        return res.status(200).json({
+            message : "login successful",
+            userData : {
+                userId : user.id,
+                username : user.username,
+                email : user.email,
+            }
+        })
     }
     catch(error){
         console.log("Error when loggin in user", error);
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
-    
 }
 
-export async function getCurrentUser(req, res) {
-    try{
+export function logout(req, res) {
+    req.session.destroy((error) => {
+        if (error){
+            console.error("Error destroying session", error);
+            return res.status(500).json({message : "Log out failed please try again later!"})
+        }
 
-    }
-    catch(error){
-        console.log("Error when loggin in user", error);
-        res.status(500).json({message : "Internal server error!, Please try again later!"});
-    }
+        res.clearCookie("connect.sid", {
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+        });
+        return res.status(200).json({message : "Logged out successfully!"})
+
+    })
 }
-

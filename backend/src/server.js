@@ -5,6 +5,7 @@ import session from "express-session";
 
 import { connectDB } from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
+import { checkUserAuthentication } from "./middleware/checkUserAuthentication.js";
 import userRouter from "./routes/userRoutes.js";
 import quizRouter from "./routes/quizRoutes.js";
 
@@ -13,7 +14,7 @@ dotenv.config()
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(cors)
+app.use(cors())
 app.use(express.json());
 
 app.use(session({
@@ -29,8 +30,10 @@ app.use(session({
 
 // routes
 app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
-app.use("/api/quiz", quizRouter);
+
+// protected routes
+app.use("/api/user", checkUserAuthentication, userRouter);
+app.use("/api/quiz", checkUserAuthentication, quizRouter);
 
 // invalid endpoints
 app.use((req, res) => {
