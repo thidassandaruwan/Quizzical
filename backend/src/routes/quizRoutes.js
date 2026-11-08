@@ -3,7 +3,7 @@ import { checkAnswers, getQuizes } from "../controllers/quizControllers.js"
 
 const quizRouter = express.Router();
 
-quizRouter.get("/:category/:difficulty/:ammount", getQuizes)
+quizRouter.get("/", getQuizes)
 quizRouter.post("/submit", checkAnswers)
 
 export default quizRouter;

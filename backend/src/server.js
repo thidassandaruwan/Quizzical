@@ -33,7 +33,7 @@ app.use("/api/auth", authRouter);
 
 // protected routes
 app.use("/api/user", checkUserAuthentication, userRouter);
-app.use("/api/quiz", checkUserAuthentication, quizRouter);
+app.use("/api/quiz", quizRouter);
 
 // invalid endpoints
 app.use((req, res) => {
