@@ -76,8 +76,6 @@ main::after {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  font-size: 1.5rem;
 }
 
 .auth-form{
@@ -87,21 +85,34 @@ main::after {
   align-items: center;
 }
 
-.auth-form > label{
+.input-field{
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+.input-field> label{
   margin-bottom: 5px;
   align-self: flex-start;
 }
 
-.auth-form > input{
+.input-field > input{
   border-radius: 5px;
   font-size: inherit;
   padding: 10px;
-  width: 500px;
   border: 1px solid #ccc; 
 }
 
-.username, .email{
-  margin-bottom: 30px;
+.input-field > .instruction-text{
+  font-size: 0.9rem;
+  color: #666;
+  display: none;
+}
+
+.input-field > input:focus ~ .instruction-text{
+  display: block;
 }
 
 .show-pass-wrapper{
@@ -120,6 +131,7 @@ main::after {
 }
 
 .auth-btn-primary{
+  font-size: 1.5rem;
   margin: 10px 0px 50px 0px;
   padding: 5px;
   width: 500px;

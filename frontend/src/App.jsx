@@ -4,6 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage"
 
 function App(){
+  
+
   return(
     <BrowserRouter>
       <Routes>
