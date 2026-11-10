@@ -1,8 +1,11 @@
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react"
+import toast from "react-hot-toast"
 
-function HomePage({user}){
+function HomePage({user, setQuizData}){
     const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate();
     
         async function startQuiz(e) {
             e.preventDefault();
@@ -10,12 +13,19 @@ function HomePage({user}){
             try{
                 const formData = new FormData(e.currentTarget)
                 const dataObj = Object.fromEntries(formData.entries())
-                
-                console.log(dataObj)
 
-                
+                const response = await fetch(`/api/quiz?amount=${dataObj.amount}&category=${dataObj.category}&difficulty=${dataObj.difficulty}`)
 
-                console.log("quiz started")
+                if (!response.ok){
+                    toast.error(response.message);
+                    throw new Error(response.message);
+                }
+
+                const quizData = await response.json();
+
+                navigate("/takeQuiz")
+
+                setQuizData(quizData);
             }
             catch(error){
                 console.error("Error starting quizz", error)
@@ -72,4 +82,4 @@ function HomePage({user}){
     )
 }
 
-export default HomePage
+export default HomePage;

@@ -1,13 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate, replace } from "react-router-dom";
 import { Toaster } from "react-hot-toast"
+import { useRef, useState } from "react";
 
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage"
-import { useRef, useState } from "react";
 import HomePage from "./pages/HomePage";
+import QuizPage from "./pages/QuizPage"
+
 
 function App(){
   const [user, setUser] = useState(null);
+  const [quizData, setQuizData] = useState(null)
 
   useRef(() => {
     async function getUserData() {
@@ -37,8 +40,15 @@ function App(){
 
         <Route 
           path="/"
-          element={user? <HomePage user={user}/> : <Navigate to="/login" replace/> }
+          element={user? <HomePage user={user} setQuizData={setQuizData} /> : <Navigate to="/login" replace/> }
         />
+
+        <Route 
+          path="/takeQuiz"
+          element={quizData? <QuizPage user={user} quizData={quizData} /> : <Navigate to="/" replace/> }
+        />
+
+
       </Routes>
       <Toaster/>
     </BrowserRouter>
