@@ -15,13 +15,19 @@ export async function getQuizes(req, res) {
         }
         const validDifficulty = ["easy", "medium", "hard"];
 
-        const {amount, category, difficulty} = req.query;
+        let {amount, category, difficulty} = req.query;
 
-        console.log(amount, category, difficulty)
+        // check if ammount is number and conver it to Number
+        if (Number.isNaN(amount)){
+            return res.status(400).json({message : "Valid amount(> 5), category, and difficulty are required parameters."})
+        }
+        
+        amount = Number(amount);
+        
 
         // if ammoint is not a number or less than 5, if category, diffuculty are not valid values
         if (
-            (Number.isNaN(amount) && Number(amount) < 5) || 
+            ( amount < 5) || 
             !Object.keys(categoryKey).includes(category) || 
             !validDifficulty.includes(difficulty)
         ){
