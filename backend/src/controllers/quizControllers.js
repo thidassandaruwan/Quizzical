@@ -4,7 +4,7 @@ import Mark from "../model/Mark.js";
 
 export async function getQuizes(req, res) {
     try{
-        // https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple
+        // expecting url "/api/quiz?amount={}&category={}&difficulty={}"
         const categoryKey = {
             computers : 18,
             videoGames : 15,
@@ -34,6 +34,7 @@ export async function getQuizes(req, res) {
             return res.status(400).json({message : "Valid amount(> 5), category, and difficulty are required parameters."})
         }
         
+        // https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple
         const API_URL = `https://opentdb.com/api.php?amount=${amount}&category=${categoryKey[category]}&difficulty=${difficulty}&type=multiple`;
 
         const response = await fetch(API_URL)

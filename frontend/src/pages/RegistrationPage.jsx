@@ -106,7 +106,7 @@ function RegistrationPage({setUser}){
                 </div>
                 
                 <button 
-                    className="auth-btn-primary" 
+                    className="form-btn-primary" 
                     type="submit"
                     disabled={isLoading}
                 >{isLoading ? "Creating..." : "Create Account"}</button>

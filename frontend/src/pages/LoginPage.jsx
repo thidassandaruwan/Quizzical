@@ -25,7 +25,6 @@ function LoginPage({setUser}){
             })
 
             const responseData = await response.json();
-            console.log(response)
 
             if (!response.ok){
                 toast.error(responseData.message)
@@ -37,7 +36,6 @@ function LoginPage({setUser}){
             // set the user
             setUser(responseData.userData)
 
-            console.log(responseData.userData)
             navigate("/")
         }
         catch(error){
@@ -83,7 +81,7 @@ function LoginPage({setUser}){
                 </div>
                 
                 <button 
-                    className="auth-btn-primary" 
+                    className="form-btn-primary" 
                     type="submit"
                     disabled={isLoading}
                 >{isLoading ? "Loggin in..." : "Login"}</button>
