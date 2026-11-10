@@ -1,9 +1,13 @@
 import Header from "../components/Header";
 
-function HomePage(){
+function HomePage({user}){
     return (
         <>
-            <Header/>
+            <Header user={user}/>
+            <main>
+                <h1>{`Welcome ${user.username}`}</h1>
+            </main>
+            
         </>
     )
 }

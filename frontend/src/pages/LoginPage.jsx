@@ -1,50 +1,61 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-function LoginPage(){
+function LoginPage({setUser}){
     const [showPassword, setShowPassword] = useState(false)
-    const [logginIn, setLogginIn] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate();
 
-    async function handleFormSubmission(e){
+    async function loginUser(e){
         e.preventDefault();
 
-        setLogginIn(true)
+        setIsLoading(true)
         try{
             const formData = new FormData(e.currentTarget)
             const dataObj = Object.fromEntries(formData.entries())
 
-            const response = await fetch("/auth/login", {
+            const response = await fetch("/api/auth/login", {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
                 },
+                credentials: 'include',
                 body : JSON.stringify(dataObj)
             })
 
             const responseData = await response.json();
-            
+            console.log(response)
+
             if (!response.ok){
-                alert(responseData.message);
+                toast.error(responseData.message)
+                throw new Error(responseData.message || 'Login failed')
             }
 
-            alert(response.message)
+            toast.success(responseData.message)
+
+            // set the user
+            setUser(responseData.userData)
+
+            console.log(responseData.userData)
+            navigate("/")
         }
         catch(error){
             console.log(error)
-            alert("error loggin in");
         }
         finally{
-            setLogginIn(false)
+            setIsLoading(false)
         }
     }
 
     return (
         <main className="auth-page">
-            <form className="auth-form" onSubmit={e =>  handleFormSubmission(e)}>
+            <form className="auth-form" onSubmit={e =>  loginUser(e)}>
                 <div className="input-field">
                     <label htmlFor="email">Email</label>
                     <input
                         className="email"
+                        id="email"
                         name="email"
                         type="email"
                         placeholder="example@mail.com"
@@ -56,15 +67,17 @@ function LoginPage(){
                     <label htmlFor="password">Password</label>
                     <input
                         className="password"
+                        id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="password"
                         required
                     />
-                    
+
                     <div className="show-pass-wrapper">
                         <input
                             className="password-show-hide-check"
+                            id="password-show-hide-check"
                             type="checkbox" onChange={(e) => setShowPassword(e.target.checked)}
                         />
                         <label htmlFor="password-show-hide-check">Show password</label>
@@ -74,8 +87,8 @@ function LoginPage(){
                 <button 
                     className="auth-btn-primary" 
                     type="submit"
-                    disabled={logginIn}
-                >Login</button>
+                    disabled={isLoading}
+                >{isLoading ? "Loggin in..." : "Login"}</button>
             </form>
 
             <p className="auth-redirect-text">

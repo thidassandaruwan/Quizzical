@@ -32,8 +32,8 @@ button:disabled{
 /* main background */
 main {
   position: relative;
-  overflow: hidden; /* Clips the overflowing parts of the circles */
-  background-color: #f5f7fb; /* Base light background */
+  overflow: hidden;
+  background-color: #f5f7fb; 
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -49,10 +49,10 @@ main::before {
   right: 0;
   width: 240px;
   height: 240px;
-  background-color: #fff9d0; /* Soft yellow */
+  background-color: #fff9d0;
   border-radius: 50%;
-  transform: translate(35%, -35%); /* Shifts the center into the corner */
-  pointer-events: none; /* Ensures mouse clicks pass through */
+  transform: translate(35%, -35%); 
+  pointer-events: none; 
 }
 
 /* Bottom-Left Blue Circle */
@@ -63,9 +63,9 @@ main::after {
   left: 0;
   width: 240px;
   height: 240px;
-  background-color: #deebf8; /* Soft light blue */
+  background-color: #deebf8; 
   border-radius: 50%;
-  transform: translate(-35%, 35%); /* Shifts the center into the corner */
+  transform: translate(-35%, 35%); 
   pointer-events: none;
 }
 
@@ -159,7 +159,49 @@ main::after {
   text-decoration: underline;
 }
 
-/* REGISTER PAGE  */
+/* COMPONENTS */
+/* Header */
+.header{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 50px;
+  background-color: #FFFAD1;
+}
+
+.header-logo{
+  display: flex;
+  align-items: center;
+}
+
+.logo-img{
+  width: 70px;
+}
+
+.logo-text{
+  text-decoration: none;
+  color: #043C79;
+  font-family: cursive;
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.header-logo-navlink{
+  text-decoration: none;
+}
+
+.profile-container{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-user-name{
+  font-size: 2rem;
+}
+
+.profile-img{
+  width: 70px;
+}
 
 /* HOME PAGE */
 
