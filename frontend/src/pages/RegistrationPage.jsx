@@ -42,7 +42,7 @@ function RegistrationPage({setUser}){
             navigate("/")
         }
         catch(error){
-            console.log(error)
+            console.log("Error registering user", error)
         }
         finally{
             setIsLoading(false)
@@ -57,7 +57,6 @@ function RegistrationPage({setUser}){
                 <div className="input-field">
                     <label htmlFor="username">Username</label>
                     <input
-                        className="username"
                         id="username"
                         name="username"
                         type="text"
@@ -73,7 +72,6 @@ function RegistrationPage({setUser}){
                 <div className="input-field">
                     <label htmlFor="email">Email</label>
                     <input
-                        className="email"
                         id="email"
                         name="email"
                         type="email"
@@ -85,7 +83,6 @@ function RegistrationPage({setUser}){
                 <div className="input-field">
                     <label htmlFor="password">Password</label>
                     <input
-                        className="password"
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}

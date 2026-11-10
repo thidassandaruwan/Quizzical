@@ -41,7 +41,7 @@ function LoginPage({setUser}){
             navigate("/")
         }
         catch(error){
-            console.log(error)
+            console.log("Error loging in user", error)
         }
         finally{
             setIsLoading(false)
@@ -50,11 +50,10 @@ function LoginPage({setUser}){
 
     return (
         <main className="auth-page">
-            <form className="auth-form" onSubmit={e =>  loginUser(e)}>
+            <form className="input-form" onSubmit={e =>  loginUser(e)}>
                 <div className="input-field">
                     <label htmlFor="email">Email</label>
                     <input
-                        className="email"
                         id="email"
                         name="email"
                         type="email"
@@ -66,7 +65,6 @@ function LoginPage({setUser}){
                 <div className="input-field">
                     <label htmlFor="password">Password</label>
                     <input
-                        className="password"
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
