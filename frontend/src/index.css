@@ -14,7 +14,74 @@ body {
   height: 100dvh;
 }
 
-/* COMMON STYLES */
+/* 
+  #######################################
+    PAGE SPECIFIC STYLING
+  #########################################
+*/
+
+/* LOGIN PAGE / REGISTER PAGE*/
+.auth-page{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-pass-wrapper{
+  font-size: 1rem;
+  align-self: flex-end;
+  margin: 10px 0px;
+
+  display: flex;
+  align-items: center;
+}
+
+.password-show-hide-check{
+  height: 15px;
+  aspect-ratio: 1/1;
+  margin-right: 5px;
+}
+
+.auth-redirect-text {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.auth-redirect-link {
+  color: #4D5B9E;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.auth-redirect-link:hover {
+  text-decoration: underline;
+}
+
+/* HOME PAGE */
+
+#start-quiz-btn{
+  padding: 15px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* QUIZ PAGE */ 
+
+/* DASHBOARD */
+
+/* 
+  #######################################
+    REUSABLE STYLING
+  #########################################
+*/
+
 
 /* button hovering and opacity */
 button{
@@ -69,16 +136,8 @@ main::after {
   pointer-events: none;
 }
 
-/* LOGIN PAGE */
-.auth-page{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.auth-form{
+/* Html form general styling */
+.input-form{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,11 +157,15 @@ main::after {
   align-self: flex-start;
 }
 
-.input-field > input{
+.input-field > input, select{
   border-radius: 5px;
   font-size: inherit;
   padding: 10px;
   border: 1px solid #ccc; 
+}
+
+.input-field > select{
+  color: #4b4b4b;
 }
 
 .input-field > .instruction-text{
@@ -115,22 +178,7 @@ main::after {
   display: block;
 }
 
-.show-pass-wrapper{
-  font-size: 1rem;
-  align-self: flex-end;
-  margin: 10px 0px;
-
-  display: flex;
-  align-items: center;
-}
-
-.password-show-hide-check{
-  height: 15px;
-  aspect-ratio: 1/1;
-  margin-right: 5px;
-}
-
-.auth-btn-primary{
+.form-btn-primary{
   font-size: 1.5rem;
   margin: 10px 0px 50px 0px;
   padding: 5px;
@@ -141,25 +189,13 @@ main::after {
   background-color: #4D5B9E;
 }
 
-.auth-redirect-text {
-  font-size: 1rem;
-  color: #555;
-  margin-top: 15px;
-  text-align: center;
-}
 
-.auth-redirect-link {
-  color: #4D5B9E;
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: 4px;
-}
+/* 
+  #######################################
+    COMPONENTS
+  #########################################
+*/
 
-.auth-redirect-link:hover {
-  text-decoration: underline;
-}
-
-/* COMPONENTS */
 /* Header */
 .header{
   display: flex;
@@ -202,9 +238,3 @@ main::after {
 .profile-img{
   width: 70px;
 }
-
-/* HOME PAGE */
-
-/* QUIZ PAGE */
-
-/* DASHBOARD */
