@@ -2,7 +2,7 @@ import { decode } from 'html-entities';
 import { shuffleArray } from '../utils/shuffleArray.js';
 import Mark from "../model/Mark.js";
 
-export async function getQuizes(req, res) {
+export async function getQuizzes(req, res) {
     try{
         // expecting url "/api/quiz?amount={}&category={}&difficulty={}"
         const categoryKey = {
@@ -59,13 +59,14 @@ export async function getQuizes(req, res) {
                 category : category,
                 question : decode(quiz.question),
                 selectedAnswer : null,
+                isSelectionCorrect : null,
                 correctAnswer : decodedCorrect,
                 options : answerOptions
             }
         })
 
-        // storing the current quiz data in session for checking answers one object where each key is the id of the quiz and value for each key is the answer for the quiz
-        req.session.currentQuiz = formatedQuizzData.reduce((acc, quiz) => {
+        // storing the current quiz answers in session for checking answers one object where each key is the id of the quiz and value for each key is the answer for the quiz
+        req.session.currentQuizAnswers = formatedQuizzData.reduce((acc, quiz) => {
             acc[quiz.id] = quiz.correctAnswer;
             return acc;
         }, {});
@@ -92,32 +93,28 @@ export async function checkAnswers(req, res) {
     */
     try{
         const {category, userAnswers} = req.body;
-        if (!category || !Array.isArray(userAnswers)){
+        if (!category || !userAnswers || !Array.isArray(userAnswers)){
             return res.status(400).json({message : "Invalid data submission"})
         }
 
-        const currentQuiz = req.session.currentQuiz;
-        if (!currentQuiz){
+        /*
+            contains object with {quizId : answer, ...}
+        */
+        const currentQuizAnswers = req.session.currentQuizAnswers;
+        if (!currentQuizAnswers){
             return res.status(400).json({message : "No quiz session detected!"})
         }
 
         const totalQuestions = userAnswers.length;
         let correctAnswerCount = 0;
         
-        const results = userAnswers.map( answer => {
-            const correctAnswer = currentQuiz[answer.id];
+        userAnswers.forEach( answer => {
+            const correctAnswer = currentQuizAnswers[answer.id];
             const isCorrect = correctAnswer === answer.selectedAnswer
 
             if (isCorrect){
                 correctAnswerCount++;
-            }
-
-            return {
-                id : answer.id,
-                selectedAnswer : answer.selectedAnswer,
-                correctAnswer,
-                isCorrect
-            }
+            } 
         })
 
         // generating the updating mark fields according to the cagegory
@@ -140,13 +137,14 @@ export async function checkAnswers(req, res) {
         )
 
         // remove the saved quiz from session memory
-        delete req.session.currentQuiz;
+        delete req.session.currentQuizAnswers;
 
+        /*
+            returns {correctAnswerCount, answers : {quizId : answer, ...}}
+        */
         res.status(200).json({
-            category,
             correctAnswerCount,
-            totalQuestions,
-            results
+            answers : currentQuizAnswers
         })
     }
     catch(error){

@@ -1,9 +1,9 @@
 import express from "express";
-import { checkAnswers, getQuizes } from "../controllers/quizControllers.js"
+import { checkAnswers, getQuizzes } from "../controllers/quizControllers.js"
 
 const quizRouter = express.Router();
 
-quizRouter.get("/", getQuizes)
+quizRouter.get("/", getQuizzes)
 quizRouter.post("/submit", checkAnswers)
 
 export default quizRouter;
