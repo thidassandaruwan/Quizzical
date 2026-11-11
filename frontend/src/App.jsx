@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast"
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage"
@@ -9,28 +9,36 @@ import QuizPage from "./pages/QuizPage"
 
 
 function App(){
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [quizData, setQuizData] = useState(null)
+  const [quizData, setQuizData] = useState(null);
 
-  useRef(() => {
+  useEffect(() => {
     async function getUserData() {
       try{
-        const response = await fetch("/api/user/me");
+        const response = await fetch("/api/user/me", {
+          credentials: "include",
+        });
         const responseData = await response.json();
 
-        if (!response.ok){
-          console.log(responseData.message)
+        if (response.ok){
+          setUser(responseData)
         }
-
-        setUser(responseData)
       }
       catch(error){
         console.error(error)
+      }
+      finally{
+        setIsLoading(false)
       }
     }
 
     getUserData()
   }, [])
+
+  if (isLoading){
+    return <main className="main-loading">Loading Quizzical...</main>
+  }
 
   return(
     <BrowserRouter>
@@ -40,12 +48,12 @@ function App(){
 
         <Route 
           path="/"
-          element={user? <HomePage user={user} setQuizData={setQuizData} /> : <Navigate to="/login" replace/> }
+          element={user? <HomePage user={user} setQuizData={setQuizData} setUser={setUser}/> : <Navigate to="/login" replace/> }
         />
 
         <Route 
           path="/takeQuiz"
-          element={quizData? <QuizPage user={user} quizData={quizData} /> : <Navigate to="/" replace/> }
+          element={quizData? <QuizPage user={user} quizData={quizData} setUser={setUser}/> : <Navigate to="/" replace/> }
         />
 
 
