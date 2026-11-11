@@ -42,7 +42,7 @@ function RegistrationPage({setUser}){
             navigate("/")
         }
         catch(error){
-            console.log("Error registering user", error)
+            console.error("Error registering user", error)
         }
         finally{
             setIsLoading(false)
@@ -50,9 +50,8 @@ function RegistrationPage({setUser}){
     }   
 
     return (
-        
         <main className="auth-page">
-            <form className="auth-form" onSubmit={e => registerUser(e)}>
+            <form className="input-form" onSubmit={e => registerUser(e)}>
 
                 <div className="input-field">
                     <label htmlFor="username">Username</label>

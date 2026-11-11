@@ -45,8 +45,15 @@ function App(){
   return(
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage setUser={setUser}/>}/>
-        <Route path="/register" element={<RegistrationPage setUser={setUser}/>} />  
+        <Route 
+          path="/login" 
+          element={<LoginPage setUser={setUser}/>}
+        />
+
+        <Route 
+          path="/register"
+          element={<RegistrationPage setUser={setUser}/>} 
+        />  
 
         <Route 
           path="/"

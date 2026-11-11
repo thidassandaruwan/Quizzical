@@ -33,80 +33,19 @@
 }
 
 body {
-  height: 100dvh;
   color: var(--text-main);
   background-color: var(--bg-main);
 }
 
 #root{
   height: 100dvh;
-}
-
-/* 
-  #######################################
-    PAGE SPECIFIC STYLING
-  #########################################
-*/
-
-/* LOGIN PAGE / REGISTER PAGE*/
-.auth-page{
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.show-pass-wrapper{
-  font-size: 1rem;
-  align-self: flex-end;
-  margin: 10px 0px;
-
-  display: flex;
-  align-items: center;
+#root > main{
+  flex: 1;
 }
-
-.password-show-hide-check{
-  height: 15px;
-  aspect-ratio: 1/1;
-  margin-right: 5px;
-}
-
-.auth-redirect-text {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-top: 15px;
-  text-align: center;
-}
-
-.auth-redirect-link {
-  color: var(--accent-text);
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: 4px;
-}
-
-.auth-redirect-link:hover {
-  text-decoration: underline;
-}
-
-/* HOME PAGE */
-.title{
-  letter-spacing: 2px;
-  margin: 20px 0px;
-}
-
-#start-quiz-btn{
-  padding: 15px;
-  margin-top: 50px;
-  margin-bottom: 200px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-/* QUIZ PAGE */ 
-
-/* DASHBOARD */
 
 /* 
   #######################################
@@ -186,7 +125,7 @@ main::after {
   margin-top: 30px;
 }
 
-.input-field> label{
+.input-field > label{
   margin-bottom: 5px;
   align-self: flex-start;
 }
@@ -214,9 +153,16 @@ main::after {
   display: block;
 }
 
+.input-field > input:disabled{
+  color: var(--text-muted);
+}
+
+.input-field > :has(> input:disabled) > label{
+  color: var(--text-muted);
+}
+
 .form-btn-primary{
   font-size: 1.5rem;
-  margin: 10px 0px 50px 0px;
   padding: 5px;
   width: 500px;
   border-radius: 5px;
@@ -342,3 +288,83 @@ main::after {
 .profile-img{
   width: 50px;
 }
+
+/* 
+  #######################################
+    PAGE SPECIFIC STYLING
+  #########################################
+*/
+
+/* LOGIN PAGE / REGISTER PAGE*/
+.auth-page{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-pass-wrapper{
+  font-size: 1rem;
+  align-self: flex-end;
+  margin: 10px 0px;
+
+  display: flex;
+  align-items: center;
+}
+
+.password-show-hide-check{
+  height: 15px;
+  aspect-ratio: 1/1;
+  margin-right: 5px;
+}
+
+.auth-redirect-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 15px;
+  text-align: center;
+}
+
+.auth-redirect-link {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.auth-redirect-link:hover {
+  text-decoration: underline;
+}
+
+/* HOME PAGE */
+.title{
+  letter-spacing: 2px;
+  margin: 20px 0px;
+}
+
+#start-quiz-btn{
+  padding: 15px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* QUIZ PAGE */ 
+
+/* ACCOUNT PAGE */
+.acc-update-username-label{
+  color: var(--text-muted);
+}
+
+.acc-update-btn{
+  margin: 20px 0px 100px 0px;
+}
+
+.acc-delete-btn{
+  margin-bottom: 150px;
+  background-color: var(--danger-color);
+}
+
+/* DASHBOARD */
