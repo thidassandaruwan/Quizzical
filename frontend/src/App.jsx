@@ -70,12 +70,9 @@ function App(){
       return;
     }
 
-    setQuizData(prevQuizes => prevQuizes.map(quiz => {
-      console.log(quiz.id, id)
-      console.log(quiz.id === id)
-
-      return quiz.id === id ? {...quiz, selectedAnswer : answer} : quiz
-    }))
+    setQuizData(prevQuizes => prevQuizes.map(quiz =>
+      quiz.id === id ? {...quiz, selectedAnswer : answer} : quiz
+    ))
   }
 
   function markQuizzes(answers){
