@@ -16,9 +16,9 @@ function Header({user, removeUser}){
             })
 
             if (response.ok){
-                toast("Logged Out!")
-                removeUser();
                 navigate("/login")
+                removeUser();
+                toast("Logged Out!")
             }
         }
         catch(error){
