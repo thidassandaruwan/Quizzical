@@ -4,12 +4,12 @@ import Quiz from "../components/Quiz";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-function QuizPage({user, quizData, selectQuizAnswer, markQuizzes, removeQuizzData}){
+function QuizPage({ quizData, selectQuizAnswer, markQuizzes, removeQuizzData, user, removeUser}){
     const isAllAnswered = quizData.every(quiz => quiz.selectedAnswer !== null);
     const isRoudOver = quizData.every(quiz => quiz.isSelectionCorrect !== null);
     const [isLoading, setIsLoading] = useState(false);
     const totalQuestions = quizData.length;
-    const correctAnswers = quizData.reduce((quiz, acc) => (quiz.isSelectionCorrect ? acc + 1 : acc), 0);
+    const correctAnswers = quizData.reduce((acc, quiz) => (quiz.isSelectionCorrect ? acc + 1 : acc), 0);
     const navigate = useNavigate();
 
     async function checkAnswers() {
@@ -23,7 +23,7 @@ function QuizPage({user, quizData, selectQuizAnswer, markQuizzes, removeQuizzDat
 
             // create a obj server expects {category: value , userAnswers : []}
             const quizSelectionData = {
-                category : quizData.category,
+                category : quizData[0].category,
                 userAnswers : userSelections,
             }
 
@@ -36,14 +36,16 @@ function QuizPage({user, quizData, selectQuizAnswer, markQuizzes, removeQuizzDat
                 body : JSON.stringify(quizSelectionData)
             })
 
+            const responseData = await response.json();
             if (!response.ok){
-                throw new Error(response.message)
+                throw new Error(responseData.message)
             }
 
-            const {answers} = await response.json();
+            const answers = responseData.answers;
 
             // send the answers to app.jsx where the quizData will be updated
             markQuizzes(answers)
+            console.log(answers)
         }
         catch(error){
             toast.error("Error occured when checking answers!")
@@ -62,7 +64,7 @@ function QuizPage({user, quizData, selectQuizAnswer, markQuizzes, removeQuizzDat
 
     return (
         <>
-            <Header user={user}/>
+            <Header user={user} removeUser={removeUser}/>
             <main className="quizpage">
                 {quizData.map(quiz => <Quiz key={quiz.id} quiz={quiz} selectQuizAnswer={selectQuizAnswer} isGameOver={isRoudOver}/>)}
                 
@@ -81,8 +83,8 @@ function QuizPage({user, quizData, selectQuizAnswer, markQuizzes, removeQuizzDat
                         <span className="result-text">{`You scored ${correctAnswers}/${totalQuestions} correct answers`}</span>
                         <button
                             className="form-btn-primary"
-                            id="check-answers-btn"
-                            disabled={isLoading || isRoudOver}
+                            id="redirect-to-home-btn"
+                            disabled={isLoading}
                             onClick={redirectToHome}
                         >Home</button>
                     </div>

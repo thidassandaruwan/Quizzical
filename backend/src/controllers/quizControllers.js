@@ -93,6 +93,9 @@ export async function checkAnswers(req, res) {
     */
     try{
         const {category, userAnswers} = req.body;
+
+        console.log("answer body", req.body)
+
         if (!category || !userAnswers || !Array.isArray(userAnswers)){
             return res.status(400).json({message : "Invalid data submission"})
         }

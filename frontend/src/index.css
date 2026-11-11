@@ -413,6 +413,23 @@ main::after {
   margin-bottom: 50px;
 }
 
+.quiz-over-container{
+  margin-top: 50px;
+  align-self: center;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+.result-text{
+  letter-spacing: 1%;
+  font-size: 1.2rem;
+}
+
+#redirect-to-home-btn{
+  width: 200px;
+}
+
 /* ACCOUNT PAGE */
 .acc-update-username-label{
   color: var(--text-muted);

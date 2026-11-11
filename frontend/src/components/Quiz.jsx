@@ -11,13 +11,13 @@ function Quiz({quiz, selectQuizAnswer, isRoundOver}){
                         if (quiz.selectedAnswer){
                             if (quiz.selectedAnswer === option){
                                 styleClasses = "quiz-option option-selected"
-                            }
 
-                            if (quiz.isSelectionCorrect === true){
-                                styleClasses = "quiz-option option-correct"
-                            }
-                            else if (quiz.isSelectionCorrect === false){
-                                styleClasses = "quiz-option option-incorrect"
+                                if (quiz.isSelectionCorrect === true){
+                                    styleClasses = "quiz-option option-correct"
+                                }
+                                else if (quiz.isSelectionCorrect === false){
+                                    styleClasses = "quiz-option option-incorrect"
+                                }
                             }
                         }
                             
