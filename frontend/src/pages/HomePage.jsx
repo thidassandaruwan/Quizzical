@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react"
 import toast from "react-hot-toast"
 
-function HomePage({user, setQuizData}){
+function HomePage({user, setQuizData, setUser}){
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
     
@@ -37,8 +37,9 @@ function HomePage({user, setQuizData}){
 
     return (
         <>
-            <Header user={user}/>
+            <Header user={user} setUser={setUser}/>
             <main className="homepage">
+                <h1 className="title"> Select Quiz Options From Below To Start the Quiz! </h1>
                 <form className="input-form" onSubmit={e => startQuiz(e)}>
                     <div className="input-field">
                         <label htmlFor="category"> Category </label>
