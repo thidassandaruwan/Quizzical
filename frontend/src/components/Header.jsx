@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom"
 import toast from "react-hot-toast"
 import { useState } from "react";
 
-function Header({user, setUser}){
+function Header({user, removeUser}){
     const navigate = useNavigate();
     const [optionsHidden, setOptionsHidden] = useState(true)
 
@@ -17,7 +17,7 @@ function Header({user, setUser}){
 
             if (response.ok){
                 toast("Logged Out!")
-                setUser(null);
+                removeUser();
                 navigate("/login")
             }
         }

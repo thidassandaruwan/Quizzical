@@ -2,10 +2,10 @@ import { useState } from "react";
 import Header from "../components/Header";
 import toast from "react-hot-toast";
 
-function AccountPage({user, setUser}){
+function AccountPage({user, removeUser, updateUser}){
     const [isLoading, setIsLoading] = useState(false);
 
-    async function updateUser(e) {
+    async function handleAccountUpdate(e) {
         e.preventDefault();
         setIsLoading(true)
         try{
@@ -14,6 +14,7 @@ function AccountPage({user, setUser}){
 
             console.log(dataObj)
 
+            // updateUser(userData)
         }
         catch(error){
             toast.error("Error updating account details")
@@ -28,9 +29,9 @@ function AccountPage({user, setUser}){
 
     return(
         <>
-            <Header user={user} setUser={setUser}/>
+            <Header user={user} removeUser={removeUser}/>
             <main>
-                <form className="input-form" onSubmit={e => updateUser(e)}>
+                <form className="input-form" onSubmit={e => handleAccountUpdate(e)}>
 
                     <div className="input-field">
                         <label htmlFor="username" className="acc-update-username-label">Username</label>
@@ -40,7 +41,7 @@ function AccountPage({user, setUser}){
                             type="text"
                             placeholder="Scoob"
                             value={user.username}
-                            disabled
+                            readOnly
                         />
                     </div>
                     
@@ -51,7 +52,7 @@ function AccountPage({user, setUser}){
                             name="email"
                             type="email"
                             placeholder="example@mail.com"
-                            value={user.email}
+                            defaultValue={user.email}
                             required
                         />
                     </div>

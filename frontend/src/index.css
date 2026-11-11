@@ -11,8 +11,8 @@
   --bg-main: #0f172a;
   --bg-header: #1e293b;
   --bg-input: #1e293b;
-  --bg-circle-top: rgba(251, 191, 36, 0.15);
-  --bg-circle-bottom: rgba(99, 102, 241, 0.15);
+  --bg-circle-top: #FBBF2426;
+  --bg-circle-bottom: #6366F126;
   
   /* Text colors */
   --text-main: #f8fafc;
@@ -30,6 +30,26 @@
   /* Status / Feedback */
   --danger-color: #a41d1d;
   --danger-hover-bg: #991b1b;
+  --success-color: #15803d;
+  --success-hover-bg: #166534;
+
+  /* Quiz Option styling */
+  /* idle */
+  --option-bg: #1e293b;
+  --option-border: #334155;
+  --option-text: #f8fafc;
+  /* Selected state */
+  --option-selected-bg: #6366F126; 
+  --option-selected-border: var(--accent-text);
+  --option-selected-shadow: 0 0 0 2px #818CF840 ;
+  /* Correct State*/
+  --option-correct-bg: #15803D40;
+  --option-correct-border: #22c55e;
+  --option-correct-text: #4ade80;
+  /* Incorrect State*/
+  --option-incorrect-bg: #A41D1D40;
+  --option-incorrect-border: #ef4444;
+  --option-incorrect-text: #fca5a5;
 }
 
 body {

@@ -42,37 +42,60 @@ function App(){
     return <main className="main-loading">Loading Quizzical...</main>
   }
 
+  // user controlling functions
+  function updateUser(newUser){
+    const {username, email} = newUser;
+    if (!(username && email)){
+      return;
+    }
+
+    setUser(newUser)
+  }
+
+  function removeUser(){
+    setUser(null)
+  }
+
+  // quizzdata controlling functions
+  function updateQuizzData(newQuizzes){
+    setQuizData(newQuizzes);
+  }
+
+  function removeQuizData(){
+    setQuizData(null)
+  }
+
   return(
     <BrowserRouter>
       <Routes>
         <Route 
           path="/login" 
-          element={<LoginPage setUser={setUser}/>}
+          element={<LoginPage updateUser={updateUser}/>}
         />
 
         <Route 
           path="/register"
-          element={<RegistrationPage setUser={setUser}/>} 
+          element={<RegistrationPage updateUser={updateUser}/>} 
         />  
 
         <Route 
           path="/"
-          element={user? <HomePage user={user} setQuizData={setQuizData} setUser={setUser}/> : <Navigate to="/login" replace/> }
+          element={user? <HomePage user={user} updateQuizzData={updateQuizzData} removeUser={removeUser}/> : <Navigate to="/login" replace/> }
         />
 
         <Route 
           path="/takeQuiz"
-          element={(user && quizData)? <QuizPage user={user} quizData={quizData} setUser={setUser}/> : <Navigate to="/" replace/> }
+          element={(user && quizData)? <QuizPage user={user} updateQuizzData={updateQuizzData} removeQuizzData={removeQuizData} removeUser={removeUser}/> : <Navigate to="/" replace/> }
         />
 
         <Route
           path="dashboard"
-          element={(user)? <Dashboard user={user} setUser={setUser}/> : <Navigate to="/login" replace/>}
+          element={(user)? <Dashboard user={user} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
         />
 
         <Route
           path="account"
-          element={(user)? <AccountPage user={user} setUser={setUser}/> : <Navigate to="/login" replace/>}
+          element={(user)? <AccountPage user={user} setUser={updateUser} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
         />
 
       </Routes>

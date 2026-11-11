@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 
-function RegistrationPage({setUser}){
+function RegistrationPage({updateUser}){
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
@@ -26,8 +26,7 @@ function RegistrationPage({setUser}){
             })
 
             const responseData = await response.json();
-            console.log(response)
-
+            
             if (!response.ok){
                 toast.error(responseData.message || 'Registration failed')
                 throw new Error(responseData.message || 'Registration failed')
@@ -36,9 +35,8 @@ function RegistrationPage({setUser}){
             toast.success(responseData.message)
 
             // set the user
-            setUser(responseData.userData)
+            updateUser(responseData.userData)
 
-            console.log(responseData.userData)
             navigate("/")
         }
         catch(error){

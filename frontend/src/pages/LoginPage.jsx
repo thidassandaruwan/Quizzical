@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-function LoginPage({setUser}){
+function LoginPage({updateUser}){
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ function LoginPage({setUser}){
             toast.success(responseData.message)
 
             // set the user
-            setUser(responseData.userData)
+            updateUser(responseData.userData)
 
             navigate("/")
         }
