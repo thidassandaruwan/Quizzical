@@ -6,6 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage"
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage"
+import Dashboard from "./pages/Dashboard";
+import AccountPage from "./pages/AccountPage";
 
 
 function App(){
@@ -53,9 +55,18 @@ function App(){
 
         <Route 
           path="/takeQuiz"
-          element={quizData? <QuizPage user={user} quizData={quizData} setUser={setUser}/> : <Navigate to="/" replace/> }
+          element={(user && quizData)? <QuizPage user={user} quizData={quizData} setUser={setUser}/> : <Navigate to="/" replace/> }
         />
 
+        <Route
+          path="dashboard"
+          element={(user)? <Dashboard user={user} setUser={setUser}/> : <Navigate to="/login" replace/>}
+        />
+
+        <Route
+          path="account"
+          element={(user)? <AccountPage user={user} setUser={setUser}/> : <Navigate to="/login" replace/>}
+        />
 
       </Routes>
       <Toaster/>
