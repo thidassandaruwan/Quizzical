@@ -25,7 +25,7 @@ function HomePage({user, updateQuizData, removeUser}){
 
                 navigate("/takeQuiz")
 
-                setQuizData(quizData);
+                updateQuizData(quizData);
             }
             catch(error){
                 console.error("Error starting quizz", error)

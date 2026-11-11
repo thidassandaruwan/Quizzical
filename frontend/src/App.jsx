@@ -57,12 +57,34 @@ function App(){
   }
 
   // quizzdata controlling functions
-  function updateQuizzData(newQuizzes){
+  function updateQuizData(newQuizzes){
     setQuizData(newQuizzes);
   }
 
   function removeQuizData(){
     setQuizData(null)
+  }
+
+  function selectQuizAnswer(id, answer){
+    if (id === undefined || id === null || !answer){
+      return;
+    }
+
+    setQuizData(prevQuizes => prevQuizes.map(quiz => {
+      console.log(quiz.id, id)
+      console.log(quiz.id === id)
+
+      return quiz.id === id ? {...quiz, selectedAnswer : answer} : quiz
+    }))
+  }
+
+  function markQuizzes(answers){
+    setQuizData(prevquizzes => prevquizzes.map(quiz => {
+      return {
+        ...quiz, 
+        isSelectionCorrect : quiz.selectedAnswer?.toLowerCase() === answers[quiz.id].toLowerCase()
+      }
+    }))
   }
 
   return(
@@ -80,21 +102,21 @@ function App(){
 
         <Route 
           path="/"
-          element={user? <HomePage user={user} updateQuizzData={updateQuizzData} removeUser={removeUser}/> : <Navigate to="/login" replace/> }
+          element={user? <HomePage updateQuizData={updateQuizData} user={user} removeUser={removeUser}/> : <Navigate to="/login" replace/> }
         />
 
         <Route 
           path="/takeQuiz"
-          element={(user && quizData)? <QuizPage user={user} updateQuizzData={updateQuizzData} removeQuizzData={removeQuizData} removeUser={removeUser}/> : <Navigate to="/" replace/> }
+          element={(user && quizData)? <QuizPage quizData={quizData} selectQuizAnswer={selectQuizAnswer} markQuizzes={markQuizzes} removeQuizzData={removeQuizData} user={user} removeUser={removeUser}/> : <Navigate to="/" replace/> }
         />
 
         <Route
-          path="dashboard"
+          path="/dashboard"
           element={(user)? <Dashboard user={user} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
         />
 
         <Route
-          path="account"
+          path="/account"
           element={(user)? <AccountPage user={user} setUser={updateUser} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
         />
 
