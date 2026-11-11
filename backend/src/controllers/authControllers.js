@@ -78,7 +78,7 @@ export async function register(req, res) {
 
     }
     catch(error){
-        console.log("Error when registering user", error)
+        console.error("Error when registering user", error)
         res.status(500).json({message : "Internal server error!, Please try again later!"})
     }
 }
@@ -96,7 +96,7 @@ export async function login(req, res) {
         if (!user){
             return res.status(404).json({message : "Invalid email or password!"});
         }
-        console.log("user exists")
+
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid){
@@ -117,7 +117,7 @@ export async function login(req, res) {
         })
     }
     catch(error){
-        console.log("Error when loggin in user", error);
+        console.error("Error when loggin in user", error);
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
 }

@@ -13,7 +13,7 @@ export async function getMe(req, res) {
         res.status(200).json(user)
     }
     catch(error){
-        console.log("Error when loggin in user", error);
+        console.error("Error when loggin in user", error);
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
 }
@@ -46,7 +46,7 @@ export async function deleteUser(req, res) {
         res.status(200).json(deletedUser);
     }
     catch(error){
-        console.log("Error when loggin in user", error);
+        console.error("Error when loggin in user", error);
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
     
@@ -96,7 +96,7 @@ export async function getUserStats(req, res) {
 
     }
     catch(error){
-        console.log("An error occured when getting user stats", error)
+        console.error("An error occured when getting user stats", error)
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
 }
