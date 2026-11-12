@@ -84,7 +84,10 @@ export async function getUserStats(req, res) {
             userMarks = await Mark.create({userId : user.id})
         }
 
-        res.status(200).json(userMarks);
+        // toObject() is a mongoose method and it removed mongoose/mongodb specific properties like metadata and create a plain JS object
+        const {_id, userId, createdAt, updatedAt, __v, ...categoryMarks} = userMarks.toObject();
+
+        res.status(200).json(categoryMarks);
 
     }
     catch(error){
