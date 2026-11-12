@@ -9,7 +9,7 @@ function Quiz({quiz, selectQuizAnswer, isRoundOver, correctAnswer}){
                         
                         // see if current option is selected
                         if (quiz.selectedAnswer === option){
-                            styleClasses = "quiz-option option-selected"
+                            styleClasses += " option-selected"
 
                         }
 
@@ -18,11 +18,11 @@ function Quiz({quiz, selectQuizAnswer, isRoundOver, correctAnswer}){
                         // if not if the current answer is selected show the selected current option as incorrect
                         if (correctAnswer){
                             if (option === correctAnswer) {
-                                styleClasses = "quiz-option option-correct";   
+                                styleClasses += " option-correct";   
                             }
                             // if an option is selected and it's not the correct answer
                             else if (quiz.selectedAnswer === option){
-                                styleClasses = "quiz-option option-incorrect";
+                                styleClasses += " option-incorrect";
                             }
                         }
                             
