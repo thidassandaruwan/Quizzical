@@ -46,7 +46,8 @@ function HomePage({user, updateQuizData, removeUser}){
                         <select id="category" name="category" className="select-input" defaultValue="" required>
                             <option value="" disabled>---Please select an option---</option>
                             <option value="computers"> Computers </option>
-                            <option value="videoGames"> Vide Games </option>
+                            <option value="vehicles"> Vehicles </option>
+                            <option value="videoGames"> Video Games </option>
                             <option value="geography"> Geography </option>
                             <option value="comics"> Comics </option>
                             <option value="gadgets"> Gadgets </option>
