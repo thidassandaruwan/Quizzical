@@ -81,15 +81,7 @@ export async function getUserStats(req, res) {
             }
 
             // if user does exist create a new mark for the userr
-            userMarks = await Mark.create({
-                userId : user.id,
-                computers : { correct : 0, allQuizzes : 0},
-                videoGames : { correct : 0, allQuizzes : 0},
-                geography : { correct : 0, allQuizzes : 0},
-                vehicles : { correct : 0, allQuizzes : 0},
-                comics : { correct : 0, allQuizzes : 0},
-                gadgets :{ correct : 0, allQuizzes : 0}
-            })
+            userMarks = await Mark.create({userId : user.id})
         }
 
         res.status(200).json(userMarks);

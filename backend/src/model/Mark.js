@@ -1,40 +1,27 @@
 import mongoose from "mongoose";
 import "./User.js"
 
+const categoryField = {
+    correct: { type: Number, default: 0 },
+    allQuizzes: { type: Number, default: 0 }
+};
+
 const markSchema = new mongoose.Schema(
     {
-        userId : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "User",
-            required : true
-        }, 
-        computers : {
-            correct : Number,
-            allQuizzes : Number
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         },
-        videoGames : {
-            correct : Number,
-            allQuizzes : Number
-        },
-        geography : {
-            correct : Number,
-            allQuizzes : Number
-        },
-        vehicles : {
-            correct : Number,
-            allQuizzes : Number
-        }, 
-        comics : {
-            correct : Number,
-            allQuizzes : Number
-        },
-        gadgets : {
-            correct : Number,
-            allQuizzes : Number
-        }
+        computers: categoryField,
+        videoGames: categoryField,
+        geography: categoryField,
+        vehicles: categoryField,
+        comics: categoryField,
+        gadgets: categoryField
     },
-    {timestamps : true}
-)
+    { timestamps: true }
+);
 
 const Mark = mongoose.model("Mark", markSchema);
 export default Mark;
