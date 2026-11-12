@@ -20,7 +20,7 @@
   --text-muted: #64748b;
   
   /* Borders */
-  --border-color: #334155;
+  --border-color: #3e5169;
   
   /* Brand / Accent colors */
   --accent-primary: #6366f1;
@@ -40,9 +40,13 @@
   /* Selected state */
   --option-selected-bg: #b09f63; 
   /* Correct State*/
-  --option-correct-bg: #42c472;
+  --option-correct-bg: #489f68;
   /* Incorrect State*/
-  --option-incorrect-bg: #9b4d4d;
+  --option-incorrect-bg: #b33434;
+
+  /* dashboard stat background */
+  --dashboard-stat-bg : #23396c;
+  --dashboard-progress-bar : #7cdd9f;
 }
 
 body {
@@ -408,10 +412,13 @@ main::after {
 
 .option-incorrect{
   background-color: var(--option-incorrect-bg);
-  opacity: 0.1;
 }
 
-.option-correct:disabled{
+.quiz-option:disabled{
+  opacity: 0.6;
+}
+
+.option-selected:disabled{
   opacity: 1;
 }
 
@@ -451,3 +458,78 @@ main::after {
 }
 
 /* DASHBOARD */
+.dashboard-page{
+  justify-content: flex-start;
+  padding: 50px 0px;
+}
+
+.dashboard-title{
+  font-size: 2.5rem;
+}
+
+.dashboard-description{
+  font-size: 1.5rem;
+  margin-bottom: 50px;
+}
+
+.stats-section{
+  max-width: 70%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat{
+  width: 500px;
+  padding: 30px 60px;
+  background-color: var(--dashboard-stat-bg);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-category{
+  font-weight: 400;
+  font-size: 1.7rem;
+  text-transform: capitalize;
+  letter-spacing: 3%;
+}
+
+.stat-progress-bar {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 100%;               /* Makes it span the full card width */
+  height: 20px;              /* Makes it thicker */
+  margin: 14px 0;            /* Adds breathing room above and below */
+  border: none;
+  border-radius: 999px;      /* Pill shape */
+  overflow: hidden;
+  background-color: var(--bg-main); /* Empty track color (Firefox) */
+}
+
+/* Empty track color (Chrome, Edge, Safari) */
+.stat-progress-bar::-webkit-progress-bar {
+  background-color: var(--bg-main);
+  border-radius: 999px;
+}
+
+/* Filled bar color (Chrome, Edge, Safari) */
+.stat-progress-bar::-webkit-progress-value {
+  background-color: var(--dashboard-progress-bar);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* Filled bar color (Firefox) */
+.stat-progress-bar::-moz-progress-bar {
+  background-color: var(--dashboard-progress-bar);
+  border-radius: 999px;
+}
+
+.stat-text{
+  font-size: 1.2rem;
+  align-self: flex-end;
+}

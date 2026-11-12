@@ -43,11 +43,14 @@ function Dashboard({user, removeUser}){
     return(
         <>
              <Header user={user} removeUser={removeUser}/>
-            <main>
-                <h1>{`Welcome to Dashboard ${user.username}`}</h1>
-                {
-                    Object.keys(userMarks).map(category => <UserStat key={category} category={category} mark={userMarks[category]}/>)
-                }
+            <main className="dashboard-page">
+                <h1 className="dashboard-title">{`Welcome to Dashboard, ${user.username}`}</h1>
+                <p className="dashboard-description">Here's how many questions you answered correctly for each category</p>
+                <section className="stats-section">
+                    {
+                        Object.keys(userMarks).map(category => <UserStat key={category} category={category} mark={userMarks[category]}/>)
+                    }
+                </section>
             </main>
         </>
     )
