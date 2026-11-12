@@ -59,7 +59,6 @@ export async function getQuizzes(req, res) {
                 category : category,
                 question : decode(quiz.question),
                 selectedAnswer : null,
-                isSelectionCorrect : null,
                 correctAnswer : decodedCorrect,
                 options : answerOptions
             }
@@ -94,8 +93,6 @@ export async function checkAnswers(req, res) {
     try{
         const {category, userAnswers} = req.body;
 
-        console.log("answer body", req.body)
-
         if (!category || !userAnswers || !Array.isArray(userAnswers)){
             return res.status(400).json({message : "Invalid data submission"})
         }
@@ -104,6 +101,7 @@ export async function checkAnswers(req, res) {
             contains object with {quizId : answer, ...}
         */
         const currentQuizAnswers = req.session.currentQuizAnswers;
+        
         if (!currentQuizAnswers){
             return res.status(400).json({message : "No quiz session detected!"})
         }
@@ -112,7 +110,7 @@ export async function checkAnswers(req, res) {
         let correctAnswerCount = 0;
         
         userAnswers.forEach( answer => {
-            const correctAnswer = currentQuizAnswers[answer.id];
+            const correctAnswer = currentQuizAnswers[Number(answer.quizId)];
             const isCorrect = correctAnswer === answer.selectedAnswer
 
             if (isCorrect){

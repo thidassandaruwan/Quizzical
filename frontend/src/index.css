@@ -40,9 +40,9 @@
   /* Selected state */
   --option-selected-bg: #b09f63; 
   /* Correct State*/
-  --option-correct-bg: #22c55e;
+  --option-correct-bg: #42c472;
   /* Incorrect State*/
-  --option-incorrect-bg: #ef4444;
+  --option-incorrect-bg: #9b4d4d;
 }
 
 body {
@@ -78,6 +78,7 @@ button:hover{
 }
 
 button:disabled{
+  cursor: not-allowed;
   opacity: 0.5;
 }
 
@@ -407,6 +408,11 @@ main::after {
 
 .option-incorrect{
   background-color: var(--option-incorrect-bg);
+  opacity: 0.1;
+}
+
+.option-correct:disabled{
+  opacity: 1;
 }
 
 #check-answers-btn {

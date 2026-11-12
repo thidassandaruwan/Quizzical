@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 
 function Dashboard({user, removeUser}){
+    
     return(
         <>
              <Header user={user} removeUser={removeUser}/>

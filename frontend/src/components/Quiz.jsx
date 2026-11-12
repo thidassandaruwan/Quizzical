@@ -1,4 +1,4 @@
-function Quiz({quiz, selectQuizAnswer, isRoundOver}){
+function Quiz({quiz, selectQuizAnswer, isRoundOver, correctAnswer}){
     return(
         <div className="quiz-container">
             <h3 className="quiz-question">{quiz.question}</h3>
@@ -8,16 +8,21 @@ function Quiz({quiz, selectQuizAnswer, isRoundOver}){
                         let styleClasses = "quiz-option"
                         
                         // see if current option is selected
-                        if (quiz.selectedAnswer){
-                            if (quiz.selectedAnswer === option){
-                                styleClasses = "quiz-option option-selected"
+                        if (quiz.selectedAnswer === option){
+                            styleClasses = "quiz-option option-selected"
 
-                                if (quiz.isSelectionCorrect === true){
-                                    styleClasses = "quiz-option option-correct"
-                                }
-                                else if (quiz.isSelectionCorrect === false){
-                                    styleClasses = "quiz-option option-incorrect"
-                                }
+                        }
+
+                        // if correctAnswer prop isnt null (which means quizzes are marked), 
+                        // if current option is correct, show it as the correct answer, 
+                        // if not if the current answer is selected show the selected current option as incorrect
+                        if (correctAnswer){
+                            if (option === correctAnswer) {
+                                styleClasses = "quiz-option option-correct";   
+                            }
+                            // if an option is selected and it's not the correct answer
+                            else if (quiz.selectedAnswer === option){
+                                styleClasses = "quiz-option option-incorrect";
                             }
                         }
                             

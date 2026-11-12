@@ -4,13 +4,16 @@ import Quiz from "../components/Quiz";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-function QuizPage({ quizData, selectQuizAnswer, markQuizzes, removeQuizzData, user, removeUser}){
-    const isAllAnswered = quizData.every(quiz => quiz.selectedAnswer !== null);
-    const isRoudOver = quizData.every(quiz => quiz.isSelectionCorrect !== null);
+function QuizPage({ quizData, selectQuizAnswer, removeQuizzData, user, removeUser}){
     const [isLoading, setIsLoading] = useState(false);
+    const [answerData, setAnswerData] = useState(null);
+
+    const isAllAnswered = quizData.every(quiz => quiz.selectedAnswer !== null);
+    const isRoudOver = answerData !== null;
     const totalQuestions = quizData.length;
-    const correctAnswers = quizData.reduce((acc, quiz) => (quiz.isSelectionCorrect ? acc + 1 : acc), 0);
+    const correctAnswers = answerData?.correctAnswerCount || 0;
     const navigate = useNavigate();
+    
 
     async function checkAnswers() {
         setIsLoading(true)
@@ -37,15 +40,13 @@ function QuizPage({ quizData, selectQuizAnswer, markQuizzes, removeQuizzData, us
             })
 
             const responseData = await response.json();
+
             if (!response.ok){
                 throw new Error(responseData.message)
             }
 
-            const answers = responseData.answers;
-
-            // send the answers to app.jsx where the quizData will be updated
-            markQuizzes(answers)
-            console.log(answers)
+            console.log(responseData)
+            setAnswerData(responseData);
         }
         catch(error){
             toast.error("Error occured when checking answers!")
@@ -66,7 +67,7 @@ function QuizPage({ quizData, selectQuizAnswer, markQuizzes, removeQuizzData, us
         <>
             <Header user={user} removeUser={removeUser}/>
             <main className="quizpage">
-                {quizData.map(quiz => <Quiz key={quiz.id} quiz={quiz} selectQuizAnswer={selectQuizAnswer} isGameOver={isRoudOver}/>)}
+                {quizData.map(quiz => <Quiz key={quiz.id} quiz={quiz} selectQuizAnswer={selectQuizAnswer} correctAnswer={answerData? answerData.answers[quiz.id] : null} isRoundOver={isRoudOver}/>)}
                 
                 { (isAllAnswered && !isRoudOver) && 
                     <button
@@ -86,7 +87,7 @@ function QuizPage({ quizData, selectQuizAnswer, markQuizzes, removeQuizzData, us
                             id="redirect-to-home-btn"
                             disabled={isLoading}
                             onClick={redirectToHome}
-                        >Home</button>
+                        > Play Again </button>
                     </div>
                 }
 

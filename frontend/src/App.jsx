@@ -75,15 +75,6 @@ function App(){
     ))
   }
 
-  function markQuizzes(answers){
-    setQuizData(prevquizzes => prevquizzes.map(quiz => {
-      return {
-        ...quiz, 
-        isSelectionCorrect : quiz.selectedAnswer?.toLowerCase() === answers[quiz.id].toLowerCase()
-      }
-    }))
-  }
-
   return(
     <BrowserRouter>
       <Routes>
@@ -104,7 +95,7 @@ function App(){
 
         <Route 
           path="/takeQuiz"
-          element={(user && quizData)? <QuizPage quizData={quizData} selectQuizAnswer={selectQuizAnswer} markQuizzes={markQuizzes} removeQuizzData={removeQuizData} user={user} removeUser={removeUser}/> : <Navigate to="/" replace/> }
+          element={(user && quizData)? <QuizPage quizData={quizData} selectQuizAnswer={selectQuizAnswer} removeQuizzData={removeQuizData} user={user} removeUser={removeUser}/> : <Navigate to="/" replace/> }
         />
 
         <Route
