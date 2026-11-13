@@ -1,5 +1,6 @@
 import User from "../model/User.js"
 import Mark from "../model/Mark.js"
+import bcrypt from "bcrypt";
 
 export async function getMe(req, res) {
     try{
@@ -14,6 +15,42 @@ export async function getMe(req, res) {
     }
     catch(error){
         console.error("Error when loggin in user", error);
+        res.status(500).json({message : "Internal server error!, Please try again later!"});
+    }
+}
+
+export async function updateUser(req, res) {
+    try{
+        console.log(req.body)
+
+        const {email, password} = req.body;
+
+        if (!email && !password){
+            return res.status(400).json({message : "Bad request!"})
+        }
+
+        const updatedDetails = {email};
+
+        if (password){
+            updatedDetails.password = await bcrypt.hash(password, 10);
+        } 
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.session.userId,
+            updatedDetails,
+            { new: true }
+        )
+
+        console.log(updatedUser);
+
+        res.status(200).json({
+            message : "Account updated succesfully!",
+            updatedUser
+        })
+        
+    }
+    catch(error){
+        console.error("Error updating user", error)
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
 }

@@ -45,11 +45,16 @@ function App(){
   // user controlling functions
   function updateUser(newUser){
     const {username, email} = newUser;
+    
     if (!(username && email)){
       return;
     }
 
-    setUser(newUser)
+    setUser(prevUser => ({
+      ...prevUser,
+      username, 
+      email
+    }))
   }
 
   function removeUser(){
@@ -105,7 +110,7 @@ function App(){
 
         <Route
           path="/account"
-          element={(user)? <AccountPage user={user} setUser={updateUser} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
+          element={(user)? <AccountPage user={user} updateUser={updateUser} removeUser={removeUser}/> : <Navigate to="/login" replace/>}
         />
 
       </Routes>

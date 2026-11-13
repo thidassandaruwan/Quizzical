@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function AccountPage({user, removeUser, updateUser}){
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     async function handleAccountUpdate(e) {
         e.preventDefault();
@@ -14,7 +16,33 @@ function AccountPage({user, removeUser, updateUser}){
 
             console.log(dataObj)
 
-            // updateUser(userData)
+            const {email, password} = dataObj;
+            const updateData = {email}
+
+            if (password){
+                updateData.password = password;
+            }
+
+            console.log(updateData)
+            const response = await fetch("/api/user/update", {
+                method : "PUT",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                credentials: 'include',
+                body : JSON.stringify(updateData)
+            })
+
+            const responseData = await response.json();
+
+            if (!response.ok){
+                throw new Error(responseData.message);
+            }
+
+            toast.success(responseData.message)
+
+            const {username : updatedUsername, email : updatedEmail} = responseData
+            updateUser({username : updatedUsername, email : updatedEmail});
         }
         catch(error){
             toast.error("Error updating account details")
@@ -26,6 +54,31 @@ function AccountPage({user, removeUser, updateUser}){
         
     }
 
+    async function handleAccountDelete() {
+        setIsLoading(true);
+        try{
+            const response = await fetch("/api/user/delete", {
+                method : "DELETE",
+                credentials: "include",
+            })
+
+            const responseData = await response.json();
+
+            if (!response.ok){
+                throw new Error(responseData.message);
+            }
+
+            toast.success(responseData.message);
+            navigate("/login")
+        }
+        catch(error){
+            toast.error("Error deleting the account!")
+            console.error("Error deleting the account!", error)
+        }
+        finally{
+            setIsLoading(false)
+        }
+    }
 
     return(
         <>
@@ -78,7 +131,11 @@ function AccountPage({user, removeUser, updateUser}){
                 </form>
 
                 <button 
+                    type="button"
                     className="form-btn-primary acc-delete-btn"
+                    onClick={handleAccountDelete}
+                    disabled={isLoading}
+                    
                 > Delete Account </button>
             </main>
         </>
