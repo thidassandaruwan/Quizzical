@@ -15,7 +15,7 @@ export async function register(req, res) {
 
         const usernamePattern = /^[a-zA-Z0-9_-]{1,20}$/;
         if (!usernamePattern.test(username)){
-            return res.status(400).json({message : `'${username}' is not in valid format!`});
+            return res.status(400).json({message : `'${username}' is not a valid password!`});
         }
 
         // a minimum length of 8 characters, at least one lowercase letter, one uppercase letter, one digit, and one special character

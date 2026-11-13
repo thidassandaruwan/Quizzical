@@ -29,7 +29,7 @@
   
   /* Status / Feedback */
   --danger-color: #a41d1d;
-  --danger-hover-bg: #991b1b;
+  --danger-bg: #411617;
   --success-color: #15803d;
   --success-hover-bg: #166534;
 
@@ -163,7 +163,7 @@ main::after {
 
 .input-field > .instruction-text{
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--text-main);
   display: none;
 }
 
@@ -456,6 +456,62 @@ main::after {
   margin-bottom: 150px;
   background-color: var(--danger-color);
 }
+
+.popup-overlay {
+  position: fixed;
+  inset: 0; 
+  background-color: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.acc-delete-popup {
+  width: 600px;
+  max-width: 90%;
+  padding: 30px;
+  background-color: var(--bg-header);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  gap: 16px;
+}
+
+.acc-delete-title{
+  font-size: 1.5rem;
+  letter-spacing: 1%;
+}
+
+.acc-delete-input{
+  margin: 20px 0px;
+}
+
+.popup-btn-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.acc-delete-confirm-btn,
+.acc-delete-cancel-btn{
+  font-size: 1.5rem;
+  width: 200px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  color: var(--text-main);
+}
+
+.acc-delete-cancel-btn{
+  background-color: var(--accent-primary);
+}
+
+.acc-delete-confirm-btn{
+  background-color: var(--danger-color);
+} 
 
 /* DASHBOARD */
 .dashboard-page{

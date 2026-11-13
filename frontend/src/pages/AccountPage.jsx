@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 function AccountPage({user, removeUser, updateUser}){
     const [isLoading, setIsLoading] = useState(false);
+    const [showAccDeletePopUp, setShowAccDeletePopUp] = useState(false);
+    const [passInput, setPassInput] = useState("");
+
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+    const enableAccDeleteBtn = passwordPattern.test(passInput);
+
     const navigate = useNavigate();
 
     async function handleAccountUpdate(e) {
@@ -36,7 +42,8 @@ function AccountPage({user, removeUser, updateUser}){
             const responseData = await response.json();
 
             if (!response.ok){
-                throw new Error(responseData.message);
+                toast.error(responseData.message)
+                throw new Error(responseData.message)
             }
 
             toast.success(responseData.message)
@@ -45,7 +52,6 @@ function AccountPage({user, removeUser, updateUser}){
             updateUser({username : updatedUsername, email : updatedEmail});
         }
         catch(error){
-            toast.error("Error updating account details")
             console.error("Error updating account details", error)
         }
         finally{
@@ -57,6 +63,25 @@ function AccountPage({user, removeUser, updateUser}){
     async function handleAccountDelete() {
         setIsLoading(true);
         try{
+            // authenticate user via password
+            const verifyResponse = await fetch("/api/user/authenticate",{
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                credentials: 'include',
+                body : JSON.stringify({password : passInput})
+            })
+
+            const verifyData = await verifyResponse.json();
+
+            if (!verifyResponse.ok){
+                toast.error(verifyData.message);
+                throw new Error(verifyData.message);
+            }
+
+            // if verification ok proceed with the acc deletion
+
             const response = await fetch("/api/user/delete", {
                 method : "DELETE",
                 credentials: "include",
@@ -95,6 +120,7 @@ function AccountPage({user, removeUser, updateUser}){
                             placeholder="Scoob"
                             value={user.username}
                             readOnly
+                            disabled
                         />
                     </div>
                     
@@ -116,6 +142,7 @@ function AccountPage({user, removeUser, updateUser}){
                             id="password"
                             name="password"
                             type="text"
+                            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}"
                             placeholder="Keep blank if do not want to update"
                         />
                         <span className="instruction-text">
@@ -133,10 +160,36 @@ function AccountPage({user, removeUser, updateUser}){
                 <button 
                     type="button"
                     className="form-btn-primary acc-delete-btn"
-                    onClick={handleAccountDelete}
+                    onClick={() => setShowAccDeletePopUp(true)}
                     disabled={isLoading}
-                    
                 > Delete Account </button>
+
+                {/* delete confirmation popup */}
+                {showAccDeletePopUp && (
+                    <div className="popup-overlay">
+                        <div className="input-field acc-delete-popup">
+                            <h1 className="acc-delete-title">Enter your password : </h1>
+                            <input
+                                className="acc-delete-input"
+                                type="text"
+                                placeholder="enter your password"
+                                value={passInput}
+                                onChange={e => setPassInput(e.target.value)}
+                            />
+                            <div className="popup-btn-container">
+                                <button
+                                    className="acc-delete-cancel-btn"
+                                    onClick={() => setShowAccDeletePopUp(false)}
+                                >Cancel</button>
+                                <button
+                                    className="acc-delete-confirm-btn"
+                                    disabled={!enableAccDeleteBtn}
+                                    onClick={handleAccountDelete}
+                                >{isLoading? "Deleting..." : "Confirm"}</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
         </>
     )

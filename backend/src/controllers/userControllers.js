@@ -1,6 +1,7 @@
 import User from "../model/User.js"
 import Mark from "../model/Mark.js"
 import bcrypt from "bcrypt";
+import validator from "validator"
 
 export async function getMe(req, res) {
     try{
@@ -21,27 +22,48 @@ export async function getMe(req, res) {
 
 export async function updateUser(req, res) {
     try{
-        console.log(req.body)
-
         const {email, password} = req.body;
 
         if (!email && !password){
             return res.status(400).json({message : "Bad request!"})
         }
 
-        const updatedDetails = {email};
+        const updatedDetails = {};
 
+        // check if email is valid 
+        if (email){
+            if (!validator.isEmail(email)){
+                return res.status(400).json({message : `${email} is not an valid email!`})
+            }
+
+            // check if email is alredy registered
+            const existingUser = await User.findOne({email : email}).select("-password")
+            if (existingUser){
+                // check if the email is registered for someone else account
+                if (!existingUser.id === req.session.userId){
+                    return res.status(409).json({message : `${email} is already registered!`});
+                }   
+            }
+
+            updatedDetails.email = email;
+        }
+    
         if (password){
+            // check if password is valid (pattern)
+            // a minimum length of 8 characters, at least one lowercase letter, one uppercase letter, one digit, and one special character
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+            if (!passwordPattern.test(password)){
+                return res.status(400).json({message : `${password} is not a valid password!`});
+            }
+
             updatedDetails.password = await bcrypt.hash(password, 10);
         } 
 
         const updatedUser = await User.findByIdAndUpdate(
             req.session.userId,
             updatedDetails,
-            { new: true }
-        )
-
-        console.log(updatedUser);
+            { returnDocument: 'after' }
+        ).select("-password")
 
         res.status(200).json({
             message : "Account updated succesfully!",
@@ -51,6 +73,29 @@ export async function updateUser(req, res) {
     }
     catch(error){
         console.error("Error updating user", error)
+        res.status(500).json({message : "Internal server error!, Please try again later!"});
+    }
+}
+
+export async function authenticateUser(req, res) {
+    try{
+        const {password} = req.body;
+        
+        if (!password){
+            return res.status(400).json({message : "Bad request!"})
+        }
+
+        const user = await User.findById(req.session.userId);  
+        const isAuthenticated =await bcrypt.compare(password, user.password);
+        
+        if (!isAuthenticated){
+            return res.status(401).json({message : "Incorrect password!"})
+        }
+
+        res.status(200).json({message : "Authenticated!"})
+    }
+    catch(error){
+        console.error("Error when authenticating user", error)
         res.status(500).json({message : "Internal server error!, Please try again later!"});
     }
 }
@@ -80,7 +125,10 @@ export async function deleteUser(req, res) {
             return res.status(200).json({ message: "Account deleted successfully!" });
         });
 
-        res.status(200).json(deletedUser);
+        res.status(200).json({
+            message : "Account deleted successfully!",
+            deletedUser
+        });
     }
     catch(error){
         console.error("Error when loggin in user", error);

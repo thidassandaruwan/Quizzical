@@ -58,6 +58,7 @@ function RegistrationPage({updateUser}){
                         name="username"
                         type="text"
                         placeholder="Scoob"
+                        pattern="[a-zA-Z0-9_\-]{1,20}"
                         required
                     />
 
@@ -84,6 +85,7 @@ function RegistrationPage({updateUser}){
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="password"
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}"
                         required
                     />
 
