@@ -1,0 +1,24 @@
+{
+  "name": "quizzical",
+  "version": "1.0.0",
+  "description": "- **Fetch Questions:** Pull questions from the Open Trivia Database (OTDB) API. - **Display UI:** Render questions alongside interactive choice buttons. - **Answer Evaluation:** Check and score user choices upon submission. - **Tally Display:** Present the final score and round results once completed.",
+  "keywords": [],
+  "homepage": "https://github.com/thidassandaruwan/Quizzical#readme",
+  "bugs": {
+    "url": "https://github.com/thidassandaruwan/Quizzical/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thidassandaruwan/Quizzical.git"
+  },
+  "license": "ISC",
+  "author": "thidas",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build" : "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "dev" : "npm run dev --prefix backend & npm run dev --prefix frontend",
+    "start": "npm run start --prefix backend"
+  }
+}
